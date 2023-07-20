@@ -19,7 +19,13 @@ export default function Home() {
       try {
         const sqlite3 = await sqlite3InitModule()
         const oo = sqlite3.oo1;
-        db.current = new oo.DB("/db.sqlite3", "ct")
+        if (sqlite3.opfs) {
+          console.log('Opfs is available')
+          db.current = new sqlite3.opfs.OpfsDb("/db.sqlite3")
+        } else {
+          console.log('Opfs is not available')
+          db.current = new oo.DB("/db.sqlite3", "ct")
+        }
         db.current.exec("CREATE TABLE IF NOT EXISTS test (user_cd VARCHAR(20) PRIMARY KEY, user_name VARCHAR(50));")
       } catch (err) {
         console.error(err)
